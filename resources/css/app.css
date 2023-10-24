@@ -1,0 +1,26 @@
+form{
+    width: 100%;
+    max-width: 700px;
+}
+
+
+img{
+    max-width: 100px;
+    max-width: 100px;
+}
+
+i {
+    font-size: 1.6rem;
+    color: #ffffff;
+    min-width: 2.4rem;
+    text-align: center;
+
+}
+
+ul {
+    list-style-type: none;
+}
+
+p {
+    font-size: 1.2rem;
+}
