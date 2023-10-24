@@ -63,7 +63,6 @@ export default {
             id: null,
             formImgFile: null,
             company: {},
-            companyNotFound: true,
             errorData: {},
             unexpectedError: false
         }
@@ -89,6 +88,7 @@ export default {
             return this.id == null;
         },
         axiosConfig() {
+
             var config = {
                 method: "post",
                 url: "/request/company" + (this.isNewCompany ? "" : "/" + this.id),
@@ -104,7 +104,6 @@ export default {
             this.errorData = {};
             this.unexpectedError = false;
 
-
             axios(this.axiosConfig)
                 .then(response => {
 
@@ -113,14 +112,17 @@ export default {
                         `${this.company.name} was successfully ${this.isNewCompany ? 'created' : 'updated'}!`,
                         'success'
                     );
+
                     this.$router.push("/dashboard/company/" + response.data.id);
 
                 }).catch(error => {
+
                     if (error.response.status == 422) {
                         this.errorData = error.response.data.errors;
                     } else {
                         this.unexpectedError = true;
                     }
+
                 });
 
         },

@@ -62,7 +62,7 @@ export default {
             actionLabel: "",
             employee: null,
             companies: [
-                { id: 1, name: "Chevron", email:"ceo@chevron.com", websiteUrl: "www.chevron.com", logo: "/storage/images/chevronlogo.png" },
+                { id: 1, name: "company", email:"ceo@company.com", websiteUrl: "www.company.com", logo: "/storage/images/company.png" },
             ]
         }
     },
