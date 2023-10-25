@@ -1,8 +1,10 @@
 <template>
     <h3 class="py-4">List of Companies</h3>
 
-    <div class="d-flex justify-content-start w-100">
-        <RouterLink to="/dashboard/company"><i class="ms-4 ms-lg-5 fa-solid text-success fa-square-plus"></i></RouterLink>
+    <div class="d-flex justify-content-start w-100 mb-3">
+        <RouterLink to="/dashboard/company">
+            <i class="fa-solid text-success add-button fa-square-plus"></i>
+        </RouterLink>
     </div>
 
     <div class="w-100 table-responsive">
@@ -79,16 +81,13 @@ export default {
     },
     methods: {
         getCompanies(pageUrl) {
-
             axios.get(pageUrl
             ).then(response => {
-
                 this.companies = response.data.data;
                 this.pages = response.data.links;
                 this.currentPageUrl = pageUrl;
-
             }).catch(error => {
-
+                //
             });
         },
         deleteCompanyConfirm(id, name) {
@@ -118,10 +117,19 @@ export default {
                 this.getCompanies(this.currentPageUrl);
 
             }).catch(error => {
+                var title = "";
+                var text = "";
+                if(error.response.status == 403){
+                    title = "Forbbiden";
+                    text = "You are not allowed to perform this action!";
+                } else {
+                    title = "Oops...";
+                    text = "Something went wrong!";
+                }
                 this.$swal({
                     icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!',
+                    title: title,
+                    text: text
                 })
             });
         }

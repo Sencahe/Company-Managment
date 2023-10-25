@@ -93,14 +93,21 @@ class AuthController extends Controller
     {
         $isRestRequest = strpos($request->path(), "/api") === 0 || strpos($request->path(), "api") === 0;
 
-        if ($isRestRequest) {
-            auth()->user()->tokens()->delete();
-        } else {
-            auth()->guard('web')->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+        try {
+            if ($isRestRequest) {
+                auth()->user()->tokens()->delete();
+            } else {
+                auth()->guard('web')->logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+            }
+            return response()->json(["message" => "You have successfully logged out!"]);
+
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 500);
         }
 
-        return response()->json(["message" => "You have successfully logged out!"]);
+
+
     }
 }

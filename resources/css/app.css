@@ -24,3 +24,8 @@ ul {
 p {
     font-size: 1.2rem;
 }
+
+.add-button{
+    font-size: 2rem;
+    padding-left: 1rem;
+}

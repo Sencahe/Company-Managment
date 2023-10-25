@@ -1,6 +1,6 @@
 <template>
 
-    <h3 class="my-5">{{ labelAction }} Company: {{company.name}}</h3>
+    <h3 class="my-5">{{ labelAction }} Company: <b>{{ company.name }}</b></h3>
 
     <form v-if="isNewCompany || company.id != undefined" class="text-start border p-4">
         <p v-if="unexpectedError" class="text-danger">There has been an unexpected error. Please, try again later</p>
@@ -19,7 +19,7 @@
                 <label for="websiteUrl" class="form-label" :class="{ 'text-danger': errorData.website }">Website URL</label>
                 <label v-if="errorData.website" class="text-danger ms-1"> - {{ errorData.website[0] }}</label>
             </div>
-            <input v-model="company.website" type="url" class="form-control" :class="{ 'border-danger': errorData.website }"  id="websiteUrl" placeholder="Enter company website URL" required>
+            <input v-model="company.website" type="url" class="form-control" :class="{ 'border-danger': errorData.website }"  id="websiteUrl" placeholder="Enter company website URL">
         </div>
         <!-- Email -->
         <div class="mb-3">
@@ -27,7 +27,7 @@
                 <label for="email" class="form-label" :class="{ 'text-danger': errorData.email }">Email</label>
                 <label v-if="errorData.email" class="text-danger ms-1"> - {{ errorData.email[0] }}</label>
             </div>
-            <input v-model="company.email" type="email" class="form-control" :class="{ 'border-danger': errorData.email }" id="email" placeholder="Enter company email" required>
+            <input v-model="company.email" type="email" class="form-control" :class="{ 'border-danger': errorData.email }" id="email" placeholder="Enter company email">
         </div>
         <!-- Logo -->
         <div class="mb-3">
@@ -37,7 +37,7 @@
             </div>
 
             <div class="d-flex justify-content-between">
-                <input @change="uploadImage" type="file" class="form-control me-3" :class="{ 'border-danger': errorData.logoFile }" id="logoFile" :required="isNewCompany">
+                <input @change="uploadImage" type="file" class="form-control me-3" :class="{ 'border-danger': errorData.logoFile }" id="logoFile">
 
                 <div v-if="company.logo != ''" class="mb-3">
                     <img :src=company.logo alt="">
@@ -47,6 +47,7 @@
 
         <button @click.prevent="submit" class="btn btn-primary">Submit</button>
     </form>
+
     <div v-else>
         <p>404 Company not found :(</p>
     </div>
@@ -99,6 +100,11 @@ export default {
         }
     },
     methods: {
+        uploadImage(event) {
+            // Upload image in formulary and handle url vs file
+            this.company.logoFile = event.target.files[0];
+            this.company.logo = URL.createObjectURL(this.company.logoFile);
+        },
         submit() {
             // Create or Update a Company
             this.errorData = {};
@@ -116,20 +122,19 @@ export default {
                     this.$router.push("/dashboard/company/" + response.data.id);
 
                 }).catch(error => {
-
                     if (error.response.status == 422) {
                         this.errorData = error.response.data.errors;
+                    } else if (error.response.status == 403) {
+                        this.$swal({
+                            icon: 'error',
+                            title: 'Forbidden!',
+                            text: 'You are not allowed to perform this action!',
+                        })
                     } else {
                         this.unexpectedError = true;
                     }
-
                 });
 
-        },
-        uploadImage(event) {
-            // Upload image in formulary and handle url vs file
-            this.company.logoFile = event.target.files[0];
-            this.company.logo = URL.createObjectURL(this.company.logoFile);
         }
     }
 }

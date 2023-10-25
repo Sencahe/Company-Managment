@@ -1,11 +1,10 @@
 <template>
     <h3 class="py-4">List of Employees</h3>
 
-    <div class="d-flex justify-content-start w-100">
-        <RouterLink to="/dashboard/employee" tooltip="asdasdsa">
-            <i class="ms-4 ms-lg-5 fa-solid text-success fa-user-plus">
-
-            </i></RouterLink>
+    <div class="d-flex justify-content-start w-100 mb-3">
+        <RouterLink to="/dashboard/employee">
+            <i class="add-button fa-solid text-success fa-user-plus"></i>
+        </RouterLink>
     </div>
 
     <div class="w-100 table-responsive">
@@ -23,7 +22,7 @@
             </thead>
 
             <tbody>
-                <tr v-for="(employee, index) in paginatedEmployees" :key="index" :id="'employee-' + employee.id">
+                <tr v-for="(employee, index) in employees" :key="index" :id="'employee-' + employee.id">
                     <td>
                         {{ employee.name }}
                     </td>
@@ -31,7 +30,7 @@
                         {{ employee.lastName }}
                     </td>
                     <td>
-                        {{ employee.company }}
+                        {{ employee.company.name }}
                     </td>
                     <td>
                         {{ employee.email }}
@@ -44,7 +43,7 @@
                             <RouterLink :to="{ name: 'EmployeeFormComponentEdit', params: { id: employee.id } }">
                                 <i class="fas px-3 fa-edit text-primary"></i>
                             </RouterLink>
-                            <button @click.prevent="deleteRecord(employee.id, employee.name, employee.lastName)" class="btn p-0">
+                            <button @click.prevent="deleteEmployeeConfirm(employee.id, employee.name, employee.lastName)" class="btn p-0">
                                 <i class="fas px-3 fa-trash text-danger"></i>
                             </button>
                         </div>
@@ -56,14 +55,8 @@
 
         <nav class="mt-5">
             <ul class="pagination mb-4">
-                <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                    <a class="page-link" href="#" @click="prevPage">Previous</a>
-                </li>
-                <li class="page-item" v-for="page in pages" :key="page" :class="{ active: page === currentPage }">
-                    <a class="page-link" href="#" @click="changePage(page)">{{ page }}</a>
-                </li>
-                <li class="page-item" :class="{ disabled: currentPage === pages }">
-                    <a class="page-link" href="#" @click="nextPage">Next</a>
+                <li class="page-item" v-for="page in pages" :key="page" :class="{ active: page.active, disabled: page.url === null }">
+                    <button v-html="page.label" class="page-link" :disabled="page.active" href="#" @click="getCompanies(page.url)"></button>
                 </li>
             </ul>
         </nav>
@@ -77,43 +70,28 @@ export default {
     name: "EmployeesComponent",
     data() {
         return {
-            currentPage: 1,
-            itemsPerPage: 10,
-            employees: [
-                { id: 1, name: "Francisco", lastName: "Cahe", company: "Company", email: "franciscocahe@gmail.com", phone: "+541167054615" },
-                { id: 1, name: "Francisco", lastName: "Cahe", company: "Company", email: "franciscocahe@gmail.com", phone: "+541167054615" },
-                { id: 1, name: "Francisco", lastName: "Cahe", company: "Company", email: "franciscocahe@gmail.com", phone: "+541167054615" },
-                { id: 1, name: "Francisco", lastName: "Cahe", company: "Company", email: "franciscocahe@gmail.com", phone: "+541167054615" }, { id: 1, name: "Francisco", lastName: "Cahe", company: "Company", email: "franciscocahe@gmail.com", phone: "+541167054615" },
-                { id: 1, name: "Francisco", lastName: "Cahe", company: "Company", email: "franciscocahe@gmail.com", phone: "+541167054615" }, { id: 1, name: "Francisco", lastName: "Cahe", company: "Company", email: "franciscocahe@gmail.com", phone: "+541167054615" },
-                { id: 1, name: "Francisco", lastName: "Cahe", company: "Company", email: "franciscocahe@gmail.com", phone: "+541167054615" },
-                { id: 1, name: "Francisco", lastName: "Cahe", company: "Company", email: "franciscocahe@gmail.com", phone: "+541167054615" },
-                { id: 1, name: "Francisco", lastName: "Cahe", company: "Company", email: "franciscocahe@gmail.com", phone: "+541167054615" },
-                { id: 1, name: "Francisco", lastName: "Cahe", company: "Company", email: "franciscocahe@gmail.com", phone: "+541167054615" },
-                { id: 1, name: "Francisco", lastName: "Cahe", company: "Company", email: "franciscocahe@gmail.com", phone: "+541167054615" },
-            ]
+            employees: [],
+            pages: [],
+            currentPageUrl: ""
         }
+    },
+    created(){
+        this.getEmployees("/request/employees?page=1");
     },
     computed: {
-        paginatedEmployees() {
-            const start = (this.currentPage - 1) * this.itemsPerPage;
-            const end = this.currentPage * this.itemsPerPage;
-            return this.employees.slice(start, end);
-        },
-        pages() {
-            return Math.ceil(this.employees.length / this.itemsPerPage);
-        }
     },
     methods: {
-        changePage(page) {
-            this.currentPage = page;
+        getEmployees(pageUrl) {
+            axios.get(pageUrl
+            ).then(response => {
+                this.employees = response.data.data;
+                this.pages = response.data.links;
+                this.currentPageUrl = pageUrl;
+            }).catch(error => {
+                //
+            });
         },
-        nextPage() {
-            if (this.currentPage < this.pages) this.currentPage++;
-        },
-        prevPage() {
-            if (this.currentPage > 1) this.currentPage--;
-        },
-        deleteRecord(id,name, lastname) {
+        deleteEmployeeConfirm(id, name, lastname) {
             this.$swal({
                 title: 'Are you sure?',
                 text: `You will delete ${name} ${lastname} from the employees list.`,
@@ -124,12 +102,36 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this.$swal(
-                        'Deleted!',
-                        `${name} ${lastname} was successfully deleted`,
-                        'success'
-                    )
+                    this.deleteEmployee(id,name,lastname);
                 }
+            });
+        },
+        deleteEmployee(id, name, lastname) {
+            axios.delete('/request/employee/' + id
+            ).then(response => {
+                this.$swal({
+                    icon: 'success',
+                    title: 'Deleted!',
+                    text: `${name} ${lastname} was successfully deleted`,
+                })
+
+                this.getEmployees(this.currentPageUrl);
+
+            }).catch(error => {
+                var title = "";
+                var text = "";
+                if(error.response.status == 403){
+                    title = "Forbbiden";
+                    text = "You are not allowed to perform this action!";
+                } else {
+                    title = "Oops...";
+                    text = "Something went wrong!";
+                }
+                this.$swal({
+                    icon: 'error',
+                    title: title,
+                    text: text
+                })
             });
         }
     }

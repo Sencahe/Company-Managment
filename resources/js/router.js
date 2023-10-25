@@ -11,41 +11,40 @@ import NotFound from "./components/NotFound.vue"
 
 
 const routes = [
-  { path: "/", name: "Index", component: IndexComponent },
-  {
-    path: "/dashboard", name: "Dashboard", component: DashboardComponent,  meta: { requiresAuth: true }, children: [
-      { path: "/dashboard", name: "DashboardIndex", component: DashboardIndexComponent },
-      { path: "/dashboard/employees", name: "EmployeesComponent", component: EmployeesComponent },
-      { path: "/dashboard/employee/", name: "EmployeeFormComponentAdd", component: EmployeeFormComponent },
-      { path: "/dashboard/employee/:id", name: "EmployeeFormComponentEdit", component: EmployeeFormComponent },
-      { path: "/dashboard/companies", name: "CompaniesComponent", component: CompaniesComponent },
-      { path: "/dashboard/company/", name: "CompanyFormComponentAdd", component: CompanyFormComponent },
-      { path: "/dashboard/company/:id", name: "CompanyFormComponentEdit", component: CompanyFormComponent }
-    ]
-  },
-  { path: "/:pathMatch(.*)*", component: NotFound }
+    { path: "/", name: "Index", component: IndexComponent },
+    {
+        path: "/dashboard", name: "Dashboard", component: DashboardComponent, meta: { requiresAuth: true }, children: [
+            { path: "/dashboard", name: "DashboardIndex", component: DashboardIndexComponent },
+            { path: "/dashboard/employees", name: "EmployeesComponent", component: EmployeesComponent },
+            { path: "/dashboard/employee/", name: "EmployeeFormComponentAdd", component: EmployeeFormComponent },
+            { path: "/dashboard/employee/:id", name: "EmployeeFormComponentEdit", component: EmployeeFormComponent },
+            { path: "/dashboard/companies", name: "CompaniesComponent", component: CompaniesComponent },
+            { path: "/dashboard/company/", name: "CompanyFormComponentAdd", component: CompanyFormComponent },
+            { path: "/dashboard/company/:id", name: "CompanyFormComponentEdit", component: CompanyFormComponent }
+        ]
+    },
+    { path: "/:pathMatch(.*)*", component: NotFound }
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes,
+    history: createWebHistory(),
+    routes,
 });
 
 router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        axios.get('/auth/session')
+            .then(() => {
+                next();
+            })
+            .catch(() => {
+                next('/');
+            });
 
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    axios.get('/auth/session')
-      .then(() => {
+    } else {
+        // Proceed to the requested route
         next();
-      })
-      .catch(() => {
-        next('/');
-      });
-
-  } else {
-    // Proceed to the requested route
-    next();
-  }
+    }
 });
 
 

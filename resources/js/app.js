@@ -6,7 +6,7 @@
 
 import './bootstrap';
 import { createApp } from 'vue';
-import router from './router.js' 
+import router from './router.js'
 import AppComponent from "./AppComponent.vue"
 
 import VueSweetalert2 from 'vue-sweetalert2';

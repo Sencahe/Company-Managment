@@ -3,19 +3,27 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+
 use App\Models\Company;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use Illuminate\Support\Facades\Storage;
+
 class CompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $companies = Company::/*all()*/paginate(10);
+            $page = $request->query('page');
+            if($page != ""){
+                $companies = Company::paginate(10);
+            } else {
+                $companies = Company::orderBy('name')->get();
+            }
             return response()->json($companies, 200);
 
         } catch (\Exception $e) {
