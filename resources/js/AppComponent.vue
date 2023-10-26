@@ -1,8 +1,6 @@
 <template>
-    <div class="main-container d-flex justify-content-center align-items-center text-center min-vh-100">
-   
+    <div class="min-vh-100 d-flex flex-column justify-content-center">
         <RouterView></RouterView>
-        
     </div>
 </template>
 
@@ -10,11 +8,7 @@
 export default {
     name: "AppComponent",
     mounted() {
-        
+
     }
 }
 </script>
-
-<style>
-
-</style>

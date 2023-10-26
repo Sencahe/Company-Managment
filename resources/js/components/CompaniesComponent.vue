@@ -7,7 +7,7 @@
         </RouterLink>
     </div>
 
-    <div class="w-100 table-responsive">
+    <div class="w-100 overflow-auto table-responsive mb-3">
         <table class="table">
             <thead>
                 <tr>

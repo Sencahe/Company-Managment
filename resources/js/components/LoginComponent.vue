@@ -52,6 +52,7 @@ export default {
                 }
             })
             .then(response => {
+                localStorage.setItem("user", JSON.stringify(response.data.user));
                 this.$router.push("/dashboard");
             })
             .catch(error => {

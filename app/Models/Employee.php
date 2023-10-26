@@ -12,7 +12,7 @@ class Employee extends Model
 
     public function company()
     {
-        return $this->belongsTo(Company::class, 'companyId', 'id');
+        return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
 
@@ -21,7 +21,7 @@ class Employee extends Model
     protected $fillable = [
         'name',
         'lastName',
-        'companyId',
+        'company_id',
         'email',
         'phone'
     ];

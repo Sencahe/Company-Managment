@@ -30,6 +30,17 @@ class EmployeeController extends Controller
         }
     }
 
+    public function count()
+    {
+        try {
+            $count = Employee::count();
+            return response()->json(['count' => $count], 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json($e->getMessage(), 500);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *

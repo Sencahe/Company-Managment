@@ -34,7 +34,7 @@ class UpdateEmployeeRequest extends FormRequest
                 'min:3',
                 'max:200',
             ],
-            'companyId' => [
+            'company_id' => [
                 'required|exists:companies,id'
             ],
             'email' => [

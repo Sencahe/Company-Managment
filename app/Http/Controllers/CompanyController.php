@@ -31,6 +31,23 @@ class CompanyController extends Controller
         }
     }
 
+    public function count(){
+        try {
+            $count = Company::count();
+            return response()->json(['count'=> $count],200);
+
+        }catch (\Exception $e) {
+
+            return response()->json($e->getMessage(), 500);
+         }
+    }
+
+    public function companiesByEmployeesCount(int $companyCount)
+    {
+        $companies = Company::withCount('employees')->orderBy('employees_count', 'desc')->take($companyCount)->get();
+
+        return response()->json($companies, 200);
+    }
     /**
      * Show the form for creating a new resource.
      */

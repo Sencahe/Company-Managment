@@ -62,7 +62,6 @@ export default {
     data() {
         return {
             id: null,
-            formImgFile: null,
             company: {},
             errorData: {},
             unexpectedError: false
@@ -76,7 +75,7 @@ export default {
             ).then(response => {
                 this.company = response.data;
             }).catch(error => {
-
+                //
             });
         }
     },
@@ -119,7 +118,7 @@ export default {
                         'success'
                     );
 
-                    this.$router.push("/dashboard/company/" + response.data.id);
+                    this.company = this.isNewCompany ? {} : this.company;
 
                 }).catch(error => {
                     if (error.response.status == 422) {

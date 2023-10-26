@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name')->required();
             $table->string('lastName')->required();
-            $table->unsignedBigInteger('companyId')->required();
-            $table->foreign('companyId')->references('id')->on('companies')->onDelete('cascade');;
-            $table->string('email')->unique();
-            $table->string('phone')->unique();
+            $table->unsignedBigInteger('company_id')->required();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');;
+            $table->string('email')->unique()->nullable();
+            $table->string('phone')->unique()->nullable();
             $table->timestamps();
         });
     }

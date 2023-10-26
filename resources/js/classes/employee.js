@@ -5,7 +5,7 @@ export default class Employee {
         this.id = employee.id || '';
         this.name = employee.name || '';
         this.lastName = employee.lastName || '';
-        this.companyId = employee.companyId || '';
+        this.company_id = employee.company_id || '';
         this.email = employee.email || '';
         this.phone = employee.phone || '';
 
@@ -17,7 +17,7 @@ export default class Employee {
             id: this.id,
             name: this.name,
             lastName: this.lastName,
-            companyId: this.companyId,
+            company_id: this.company_id,
             email: this.email,
             phone: this.phone
         };

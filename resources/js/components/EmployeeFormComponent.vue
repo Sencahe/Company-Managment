@@ -24,10 +24,10 @@
         <!-- Companies -->
         <div class="mb-3">
             <div class="d-flex" >
-                <label for="employeeCompany" class="form-label"  :class="{ 'text-danger': errorData.companyId }">Company</label>
-                <label v-if="errorData.companyId" class="text-danger ms-1"> - {{ errorData.companyId[0] }}</label>
+                <label for="employeeCompany" class="form-label"  :class="{ 'text-danger': errorData.company_id }">Company</label>
+                <label v-if="errorData.company_id" class="text-danger ms-1"> - {{ errorData.company_id[0] }}</label>
             </div>
-            <select v-model="employee.companyId" class="form-select text-dark" :class="{ 'border-danger': errorData.companyId }" id="employeeCompany" :filterable="true" required>
+            <select v-model="employee.company_id" class="form-select text-dark" :class="{ 'border-danger': errorData.company_id }" id="employeeCompany" :filterable="true" required>
                 <option v-if="isNewEmployee" value="" disabled selected hidden>Select a company...</option>
                 <option v-for="(company, index) in companies" :key="index" :value="company.id">{{ company.name }}</option>
             </select>
@@ -126,10 +126,9 @@ export default {
                     this.$swal({
                         icon: 'success',
                         title: `${this.isNewEmployee ? 'Created' : 'Updated'}!`,
-                        text: `${this.employee.name} was successfully ${this.isNewEmployee ? 'created' : 'updated'}!`,
+                        text: `${this.employee.name} ${this.employee.lastName} was successfully ${this.isNewEmployee ? 'created' : 'updated'}!`,
                     })
-
-                    this.$router.push("/dashboard/employee/" + response.data.id);
+                    this.employee = this.isNewEmployee ? {} : this.employee;
 
                 }).catch(error => {
 
