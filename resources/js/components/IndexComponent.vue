@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="px-3 text-center mb-5">Enterprise Managment System</h1>
+        <h1 class="px-3 text-center mb-5">Company Managment System</h1>
         <LoginComponent></LoginComponent>
     </div>
 </template>

@@ -49,7 +49,7 @@
     </form>
 
     <div v-else>
-        <p>404 Company not found :(</p>
+        <p>{{fetchError}}</p>
     </div>
 </template>
 
@@ -64,19 +64,8 @@ export default {
             id: null,
             company: {},
             errorData: {},
+            fetchError: "",
             unexpectedError: false
-        }
-    },
-    mounted() {
-        if (this.isNewCompany) {
-            this.company = new Company();
-        } else {
-            axios.get('/request/company/' + this.id
-            ).then(response => {
-                this.company = response.data;
-            }).catch(error => {
-                //
-            });
         }
     },
     computed: {
@@ -96,6 +85,22 @@ export default {
                 headers: { 'Content-Type': 'multipart/form-data' }
             };
             return config;
+        }
+    },
+    mounted() {
+        if (this.isNewCompany) {
+            this.company = new Company();
+        } else {
+            axios.get('/request/company/' + this.id
+            ).then(response => {
+                this.company = response.data;
+            }).catch(error => {
+                if(error.response.status == 404){
+                    this.fetchError = "404 Company not found :(";
+                } else {
+                    this.fetchError = "Oops... There has been a problem trying to get the Company... Please, try again later."
+                }
+            });
         }
     },
     methods: {

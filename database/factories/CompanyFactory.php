@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Company>
  */
@@ -15,8 +17,12 @@ class CompanyFactory extends Factory
      */
     public function definition(): array
     {
+        $companyName = Str::random(40);
         return [
-            //
+            'name' => $companyName,  
+            'email'=> fake()->unique()->safeEmail(),
+            'website' => 'https://www.' . $companyName . '.com',
+            'logo' => null,
         ];
     }
 }

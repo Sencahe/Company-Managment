@@ -128,3 +128,82 @@ If you wish, you may use Yarn instead of NPM:
 
 ./vendor/bin/sail test --group orders
 ```
+### How To (Updated)
+
+In order to make this work in a Windows OS, you must not only have installed Docker and WSL (Windows Subsystem for Linux), but you must use a WSL distribution (usually Ubuntu) to store the project within the Linux file system, being able to execute the commands, and have a better performance. You can use Windows file system, but the application will work very slow.
+
+Before starting the steps, you must check that you have WSL and Docker installed, then you might want to open CMD (or Windows Terminal from Microsoft store) and prompt:
+```shell
+wsl
+cd $user
+```
+From there you can check where you want to place your project...
+
+
+1. Git clone this repository:
+```shell
+git clone https://github.com/Sencahe/Company-Managment.git
+```
+
+2. Move into the project's folder in the same path you did the clone of the repo:
+```shell
+cd Company-Managment/
+```
+
+3. Create a copy of the `.env.example` file as `.env`:
+```shell
+cp .env.example .env
+```
+
+4. Build the image running the following command:
+```shell
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php81-composer:latest \
+    composer install --ignore-platform-reqs
+```
+
+5. After that you will get the Image in your docker respository as well as the Laravel dependencies. Before starting the container, we have to modify the Dockerfile that comes by default in "vendor\laravel\sail\runtimes\8.1\Dockerfile" as it has set the Node version in 16, when it has to be at least 18. Without this, you might face versioning issues when runnin the container for the first time using sail.
+```shell
+vim vendor/laravel/sail/runtimes/8.1/Dockerfile
+```
+Go to line 6, column 18 to modify the node version to 18 or higher
+
+6. Start the container (Sail):
+```shell
+./vendor/bin/sail up -d
+```
+
+7. Generate a new secret key and the storage link:
+```shell
+./vendor/bin/sail artisan key:generate
+./vendor/bin/sail artisan storage:link
+```
+
+8. Install additional Laravel dependencies (for testing):
+```shell
+./vendor/bin/sail composer require intervention/image
+```
+
+9. Create table schemas and populate them:
+```shell
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan db:seed --class=DatabaseSeeder
+```
+
+10. install Node dependencies and run Frontend:
+```shell
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev
+```
+
+11. Check the website at localhost:80 in your browser, login with:
+email: admin@admin
+password: password
+
+12. You can also run tests:
+```shell
+./vendor/bin/sail artisan test
+```

@@ -85,7 +85,7 @@ class CompanyController extends Controller
     public function show(Company $company)
     {
         try {
-            return $company;
+            return response()->json($company,200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
@@ -140,7 +140,7 @@ class CompanyController extends Controller
             if($companyLogo != null) {
                 Storage::delete(Str::replace('storage', 'public', $companyLogo));
             }
-            return 200;
+            return response(200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
         }

@@ -54,7 +54,7 @@
     </form>
 
     <div v-else>
-        <p>404 Employee not found :(</p>
+        <p>{{fetchError}}</p>
     </div>
 
 </template>
@@ -66,25 +66,13 @@ import axios from "axios";
 
 export default {
     name: "EmployeeFormComponent",
-    created() {
-        if (this.isNewEmployee) {
-            this.employee = new Employee();
-        } else {
-            axios.get('/request/employee/' + this.id
-            ).then(response => {
-                this.employee = response.data;
-            }).catch(error => {
-
-            });
-        }
-        this.getCompanies();
-    },
     data() {
         return {
             id: null,
             employee: {},
             companies: [],
             errorData: {},
+            fetchError: "",
             unexpectedError: false
         }
     },
@@ -101,10 +89,27 @@ export default {
                 method: this.isNewEmployee ? "post" : "put",
                 url: "/request/employee" + (this.isNewEmployee ? "" : "/" + this.id),
                 data: this.employee,
-                headers: { 'Content-Type': 'multipart/form-data' }
+                headers: { 'Content-Type': 'application/json' }
             };
             return config;
         }
+    },
+    created() {
+        if (this.isNewEmployee) {
+            this.employee = new Employee();
+        } else {
+            axios.get('/request/employee/' + this.id
+            ).then(response => {
+                this.employee = response.data;
+            }).catch(error => {
+                if(error.response.status == 404){
+                    this.fetchError = "404 Company not found :(";
+                } else {
+                    this.fetchError = "Oops... There has been a problem trying to get the Employee... Please, try again later."
+                }
+            });
+        }
+        this.getCompanies();
     },
     methods: {
         getCompanies() {
@@ -118,10 +123,8 @@ export default {
         submit() {
             this.errorData = {};
             this.unexpectedError = false;
-
             axios(this.axiosConfig)
                 .then(response => {
-
                     this.$swal({
                         icon: 'success',
                         title: `${this.isNewEmployee ? 'Created' : 'Updated'}!`,

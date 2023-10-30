@@ -37,7 +37,7 @@ class StoreCompanyRequest extends FormRequest
             'name.unique' => 'The company name has already been taken.',
             'email.email' => 'Please enter a valid email address.',
             'email.unique' => 'The email has already been taken.',
-            'website.url' => 'Please enter a valid URL.',
+            'website.url' => 'Please enter a valid URL (https://www.website.com).',
             'website.max' => 'The website URL may not be greater than :max characters.',
             'logoFile.image' => 'Please upload an image file.',
             'logoFile.dimensions' => 'The image dimensions must be at least 100x100 pixels.',

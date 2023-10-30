@@ -77,7 +77,7 @@ class EmployeeController extends Controller
     public function show(Employee $employee)
     {
         try {
-            return $employee;
+            return response()->json($employee, 200);
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
@@ -122,7 +122,7 @@ class EmployeeController extends Controller
     {
         try {
             $employee->delete();
-            return 200;
+            return response(200);
 
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
