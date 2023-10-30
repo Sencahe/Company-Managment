@@ -2,7 +2,7 @@
     <h3 class="py-4">List of Companies</h3>
 
     <div class="d-flex justify-content-start w-100 mb-3">
-        <RouterLink to="/dashboard/company">
+        <RouterLink :to="{name: 'CompanyFormComponentAdd'}">
             <i class="fa-solid text-success add-button fa-square-plus"></i>
         </RouterLink>
     </div>
@@ -11,21 +11,21 @@
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col">Logo</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Website</th>
-                <th scope="col">Actions</th>
+                    <th scope="col">Logo</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Website</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
 
             <tbody>
-                <tr v-for="(company, index) in companies" :key="index">
+                <tr v-for="(company, index) in companies" :key="index" class="table-row">
 
                     <td>
                         <img :src="company.logo" :alt="'Logo not found'" style="max-height: 50px;">
                     </td>
-                    <td>
+                    <td class="table-cell">
                         {{ company.name }}
                     </td>
                     <td>

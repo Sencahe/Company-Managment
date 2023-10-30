@@ -27,4 +27,20 @@ class StoreCompanyRequest extends FormRequest
             'logoFile' => 'image|dimensions:min_width=100,min_height=100|nullable',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'The company name is required.',
+            'name.min' => 'The company name must be at least :min characters.',
+            'name.max' => 'The company name may not be greater than :max characters.',
+            'name.unique' => 'The company name has already been taken.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'The email has already been taken.',
+            'website.url' => 'Please enter a valid URL.',
+            'website.max' => 'The website URL may not be greater than :max characters.',
+            'logoFile.image' => 'Please upload an image file.',
+            'logoFile.dimensions' => 'The image dimensions must be at least 100x100 pixels.',
+        ];
+    }
 }

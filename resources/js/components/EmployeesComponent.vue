@@ -2,7 +2,7 @@
     <h3 class="py-4">List of Employees</h3>
 
     <div class="d-flex justify-content-start w-100 mb-3">
-        <RouterLink to="/dashboard/employee">
+        <RouterLink :to="{name: 'EmployeeFormComponentAdd'}">
             <i class="add-button fa-solid text-success fa-user-plus"></i>
         </RouterLink>
     </div>
@@ -22,7 +22,7 @@
             </thead>
 
             <tbody>
-                <tr v-for="(employee, index) in employees" :key="index" :id="'employee-' + employee.id">
+                <tr v-for="(employee, index) in employees" :key="index" :id="'employee-' + employee.id" class="table-row">
                     <td>
                         {{ employee.name }}
                     </td>

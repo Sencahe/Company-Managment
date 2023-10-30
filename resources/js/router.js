@@ -1,8 +1,8 @@
 import { createWebHistory, createRouter } from "vue-router";
 import axios from "axios";
 import IndexComponent from "./components/IndexComponent.vue"
+import MainComponent from "./components/MainComponent.vue"
 import DashboardComponent from "./components/DashboardComponent.vue"
-import DashboardIndexComponent from "./components/DashboardIndexComponent.vue"
 import EmployeesComponent from "./components/EmployeesComponent.vue"
 import EmployeeFormComponent from "./components/EmployeeFormComponent.vue"
 import CompaniesComponent from "./components/CompaniesComponent.vue"
@@ -13,14 +13,14 @@ import NotFound from "./components/NotFound.vue"
 const routes = [
     { path: "/", name: "Index", component: IndexComponent },
     {
-        path: "/dashboard", name: "Dashboard", component: DashboardComponent, meta: { requiresAuth: true }, children: [
-            { path: "/dashboard", name: "DashboardIndex", component: DashboardIndexComponent },
-            { path: "/dashboard/employees", name: "EmployeesComponent", component: EmployeesComponent },
-            { path: "/dashboard/employee/", name: "EmployeeFormComponentAdd", component: EmployeeFormComponent },
-            { path: "/dashboard/employee/:id", name: "EmployeeFormComponentEdit", component: EmployeeFormComponent },
-            { path: "/dashboard/companies", name: "CompaniesComponent", component: CompaniesComponent },
-            { path: "/dashboard/company/", name: "CompanyFormComponentAdd", component: CompanyFormComponent },
-            { path: "/dashboard/company/:id", name: "CompanyFormComponentEdit", component: CompanyFormComponent }
+        path: "/", name: "MainComponent", component: MainComponent, meta: { requiresAuth: true }, children: [
+            { path: "/dashboard", name: "Dashboard", component: DashboardComponent },
+            { path: "/employees", name: "EmployeesComponent", component: EmployeesComponent },
+            { path: "/employees/add", name: "EmployeeFormComponentAdd", component: EmployeeFormComponent },
+            { path: "/employee/edit/:id", name: "EmployeeFormComponentEdit", component: EmployeeFormComponent },
+            { path: "/companies", name: "CompaniesComponent", component: CompaniesComponent },
+            { path: "/company/add", name: "CompanyFormComponentAdd", component: CompanyFormComponent },
+            { path: "/company/edit/:id", name: "CompanyFormComponentEdit", component: CompanyFormComponent }
         ]
     },
     { path: "/:pathMatch(.*)*", component: NotFound }

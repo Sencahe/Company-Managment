@@ -8,7 +8,7 @@
         <!-- Company Name -->
         <div class="mb-3">
             <div class="d-flex">
-                <label for="companyName" class="form-label" :class="{ 'text-danger': errorData.name }" >Company Name</label>
+                <label for="companyName" class="form-label" :class="{ 'text-danger': errorData.name }" >Company Name *</label>
                 <label v-if="errorData.name" class="text-danger ms-1"> - {{ errorData.name[0] }}</label>
             </div>
             <input v-model="company.name" type="text" class="form-control" :class="{ 'border-danger': errorData.name }" id="companyName" placeholder="Enter company name" required>

@@ -31,4 +31,23 @@ class StoreEmployeeRequest extends FormRequest
             'phone' => 'min:3|max:200|nullable',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'The employee name is required.',
+            'name.min' => 'The employee name must be at least :min characters.',
+            'name.max' => 'The employee name may not be greater than :max characters.',
+            'lastName.required' => 'The employee last name is required.',
+            'lastName.min' => 'The employee last name must be at least :min characters.',
+            'lastName.max' => 'The employee last name may not be greater than :max characters.',
+            'company_id.required' => 'You must select a company.',
+            'company_id.exists' => 'The selected company does not exist.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.max' => 'The email may not be greater than :max characters.',
+            'email.unique' => 'The email has already been taken.',
+            'phone.min' => 'The phone number must be at least :min characters.',
+            'phone.max' => 'The phone number may not be greater than :max characters.',
+        ];
+    }
 }

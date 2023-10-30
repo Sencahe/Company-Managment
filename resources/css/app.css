@@ -1,8 +1,8 @@
+
 form{
     width: 100%;
     max-width: 700px;
 }
-
 
 img{
     max-width: 100px;
@@ -29,6 +29,38 @@ span{
     font-size: 0.8rem;
 
 }
+
+
+.nav-item,
+.nav-item *,
+.nav-item * *{
+    
+    transition: ease 0.5s;
+}   
+
+.nav-item:hover{
+    background-color: #f5f5dc;
+}
+
+.nav-item:hover *,
+.nav-item:hover * *{
+    color: black!important;
+}
+
+.active-link
+.active-link *,
+.active-link * *{
+    color: black!important;
+}
+
+.table-row{
+    background-color: white;
+}
+
+.table-row:hover{
+    filter: brightness(92%)!important;
+}
+
 
 .add-button{
     font-size: 2rem;

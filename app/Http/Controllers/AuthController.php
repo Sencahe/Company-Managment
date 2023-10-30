@@ -66,14 +66,14 @@ class AuthController extends Controller
                 return response()->json(["message" => "Email and/or Password are incorrect!"], 401);
             }
             // Get the user
-            $user = User::where("email", $request["email"])->firstOrFail();
+            $user = User::where("email", $request->email)->firstOrFail();
 
             // Handle response
             if ($isRestRequest) {
 
                 $token = $user->createToken("auth_token")->plainTextToken;
                 return response()->json([
-                    "message" => "You have successfully loged in",
+                    "message" => "You have successfully generated access token!",
                     "access_token" => $token,
                     "token_type" => "Bearer",
                     "user" => $user
@@ -106,8 +106,5 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
-
-
-
     }
 }

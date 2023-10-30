@@ -7,7 +7,7 @@
         <!-- Name -->
         <div class="mb-3">
             <div class="d-flex">
-                <label for="employeeName" class="form-label" :class="{ 'text-danger': errorData.name }">Name</label>
+                <label for="employeeName" class="form-label" :class="{ 'text-danger': errorData.name }">Name *</label>
                 <label v-if="errorData.name" class="text-danger ms-1"> - {{ errorData.name[0] }}</label>
             </div>
             <input v-model="employee.name" type="text" class="form-control" :class="{ 'border-danger': errorData.name }" id="employeeName" placeholder="Enter employee name" required>
@@ -15,7 +15,7 @@
         <!-- Last Name -->
         <div class="mb-3">
             <div class="d-flex">
-                <label for="employeeLastName" class="form-label" :class="{ 'text-danger': errorData.lastName }">LastName</label>
+                <label for="employeeLastName" class="form-label" :class="{ 'text-danger': errorData.lastName }">LastName *</label>
                 <label v-if="errorData.lastName" class="text-danger ms-1"> - {{ errorData.lastName[0] }}</label>
             </div>
             <input  v-model="employee.lastName" type="text" class="form-control" :class="{ 'border-danger': errorData.lastName }" id="employeeName" placeholder="Enter employee last name" required>
@@ -24,7 +24,7 @@
         <!-- Companies -->
         <div class="mb-3">
             <div class="d-flex" >
-                <label for="employeeCompany" class="form-label"  :class="{ 'text-danger': errorData.company_id }">Company</label>
+                <label for="employeeCompany" class="form-label"  :class="{ 'text-danger': errorData.company_id }">Company *</label>
                 <label v-if="errorData.company_id" class="text-danger ms-1"> - {{ errorData.company_id[0] }}</label>
             </div>
             <select v-model="employee.company_id" class="form-select text-dark" :class="{ 'border-danger': errorData.company_id }" id="employeeCompany" :filterable="true" required>
@@ -97,7 +97,6 @@ export default {
             return this.id == null;
         },
         axiosConfig() {
-
             var config = {
                 method: this.isNewEmployee ? "post" : "put",
                 url: "/request/employee" + (this.isNewEmployee ? "" : "/" + this.id),
