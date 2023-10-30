@@ -200,8 +200,8 @@ Go to line 6, column 18 to modify the node version to 18 or higher
 ```
 
 11. Check the website at localhost:80 in your browser, login with:
-email: admin@admin
-password: password
+<br/>email: admin@admin.com
+<br/>password: password
 
 12. You can also run tests:
 ```shell
