@@ -17,6 +17,8 @@ class CompanyTest extends TestCase
 
     use RefreshDatabase;
 
+    private $companyJsonStructure = ['id', 'name', 'email', 'website', 'logo', 'updated_at', 'created_at'];
+
     public function test_get_all_companies()
     { 
         $amount = random_int(1, 10);
@@ -25,7 +27,7 @@ class CompanyTest extends TestCase
         $response = $this->fetch_company($admin = 1);
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            '*' => ['id', 'name', 'email', 'website', 'logo', 'updated_at', 'created_at']
+            '*' => $this->companyJsonStructure
         ]);
         $response->assertJsonCount($amount);
     }
@@ -38,7 +40,7 @@ class CompanyTest extends TestCase
         $response = $this->fetch_company($admin = 1,$page=0,$companyId=0,$rest=true);
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            '*' => ['id', 'name', 'email', 'website', 'logo', 'updated_at', 'created_at']
+            '*' => $this->companyJsonStructure
         ]);
         $response->assertJsonCount($amount);
     }
@@ -53,7 +55,7 @@ class CompanyTest extends TestCase
         $response = $this->fetch_company($admin = 1,$page);
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            'data' => ['*' => ['id', 'name', 'email', 'website', 'logo', 'updated_at', 'created_at']]
+            'data' => ['*' => $this->companyJsonStructure]
         ]);
         $response->assertJsonFragment([
             'current_page' => $page,
