@@ -10,6 +10,37 @@ use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use Illuminate\Support\Facades\Storage;
 
+
+/**
+ * @OA\Get(
+ *      path="/api/companies/",
+ *      operationId="getListOfCompanies",
+ *      tags={"Companies"},
+ *      summary="Get list of Companies",
+ *      description="Returns a list of Companies",
+ *      @OA\Response(
+ *          response=200,
+ *          description="List of Company objects",
+ *          @OA\JsonContent()
+ *      ),
+ *      @OA\Response(
+ *          response=400, 
+ *          description="Bad request"
+ *      ),
+ *      @OA\Parameter(
+ *          name="Content-Type",
+ *          in="header",
+ *          required=true,
+ *          @OA\Schema(type="string"),
+ *          example="application/json",
+ *          description="Content Type"
+ *      ),
+ *      security={
+ *          {"bearerAuth": {}}
+ *      },
+ * )
+ **/
+
 class CompanyController extends Controller
 {
     /**

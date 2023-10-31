@@ -182,9 +182,9 @@ Go to line 6, column 18 to modify the node version to 18 or higher
 ./vendor/bin/sail artisan storage:link
 ```
 
-8. Install additional Laravel dependencies (for testing):
+8. Install additional Laravel dependencies:
 ```shell
-./vendor/bin/sail composer require intervention/image
+./vendor/bin/sail composer install
 ```
 
 9. Create table schemas and populate them:
@@ -207,3 +207,6 @@ Go to line 6, column 18 to modify the node version to 18 or higher
 ```shell
 ./vendor/bin/sail artisan test
 ```
+
+12. Check swagger API docs:
+<br/>localhost:80/api/documentation

@@ -12,6 +12,40 @@ use App\Http\Controllers\Exception;
 
 use \stdClass;
 
+/**
+  * @OA\Post(
+ *      path="/api/auth/token",
+ *      operationId="getBearerToken",
+ *      tags={"Auth"},
+ *      summary="Get the Bearer Token",
+ *      description="Return bearer token",
+ *      @OA\Response(
+ *          response=200,
+ *          description="Successfully generated token",
+ *          @OA\JsonContent()
+ *      ),
+ *      @OA\Response(response=400, description="Bad request"),
+ *      @OA\RequestBody(
+ *          required=true,
+ *          description="Request body is required",
+ *          @OA\MediaType(
+ *              mediaType="application/json",
+ *              @OA\Schema(
+ *                  type="object",
+ *                  example={"email": "admin@admin.com","password":"password"}
+ *              )
+ *          )
+ *      ),
+ *      @OA\Parameter(
+ *          name="Content-Type",
+ *          in="header",
+ *          required=true,
+ *          @OA\Schema(type="string"),
+ *          example="application/json",
+ *          description="Content Type"
+ *      )
+ * )
+ */
 
 class AuthController extends Controller
 {
